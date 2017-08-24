@@ -1,6 +1,7 @@
 package tom.ybxfloatviewlibrary;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -45,6 +46,11 @@ public class MyFloatView extends LinearLayout {
             @Override
             public void bindView(RVBaseHolder holder, String s) {
                 holder.setText(R.id.tv_event, s);
+                if (holder.getLayoutPosition()%2 == 0){
+                    holder.getView(R.id.tv_event).setBackgroundColor(Color.parseColor("#666666"));
+                }else {
+                    holder.getView(R.id.tv_event).setBackgroundColor(Color.parseColor("#ffffff"));
+                }
             }
         };
         rycv.setAdapter(mAdapter);
