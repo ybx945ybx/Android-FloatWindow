@@ -38,8 +38,8 @@ public class MyFloatView extends LinearLayout {
     }
 
     private void initView(Context context) {
-        LayoutInflater.from(context).inflate(R.layout.layout_for_float_window, this);
-        rycv = (RecyclerView) findViewById(R.id.content_view);
+        LayoutInflater.from(context).inflate(R.layout.layout_float_window, this);
+        rycv = (RecyclerView) findViewById(R.id.recyclerview);
         rycv.setLayoutManager(new LinearLayoutManager(context));
         mAdapter = new RVBaseAdapter<String>(context, new ArrayList<String>(), R.layout.list_item) {
             @Override
