@@ -4,8 +4,9 @@ import android.content.Context;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.view.Gravity;
-import android.view.View;
 import android.view.WindowManager;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by a55 on 2017/8/22.
@@ -22,14 +23,14 @@ public class MyWindowManager {
      */
     private static WindowManager.LayoutParams mWindowParams;
 
-    public static void createFloatView(Context context, View contentView, int width, int height) {
+    public static void createFloatView(Context context, int width, int height) {
 
         WindowManager windowManager = getWindowManager(context);
         int           screenWidth   = windowManager.getDefaultDisplay().getWidth();
         int           screenHeight  = windowManager.getDefaultDisplay().getHeight();
         if (myFloatView == null) {
 
-            myFloatView = new MyFloatView(context, contentView);
+            myFloatView = new MyFloatView(context);
             if (mWindowParams == null) {
                 mWindowParams = new WindowManager.LayoutParams();
                 int type = 0;
@@ -59,6 +60,13 @@ public class MyWindowManager {
             myFloatView.setWmParams(mWindowParams);
             windowManager.addView(myFloatView, mWindowParams);
         }
+    }
+
+    public static void notifyDataChange(String data){
+        FloatViewDataChangeEvent event = new FloatViewDataChangeEvent();
+        event.data = data;
+        EventBus.getDefault().post(event);
+
     }
 
     /**
