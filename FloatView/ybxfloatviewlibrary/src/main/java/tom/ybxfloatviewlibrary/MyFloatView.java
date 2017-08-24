@@ -1,13 +1,18 @@
 package tom.ybxfloatviewlibrary;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
 
 /**
  * Created by a55 on 2017/8/22.
@@ -15,26 +20,41 @@ import android.widget.LinearLayout;
 
 public class MyFloatView extends LinearLayout {
 
-    private FrameLayout contentContainer;   // 添加自定义view的容器
-    private float       mTouchStartX;
-    private float       mTouchStartY;
-    private float       x;
-    private float       y;
+    private RecyclerView          rycv;
+    private RVBaseAdapter<String> mAdapter;
+    private ArrayList<String>     dataList;
+    private float                 mTouchStartX;
+    private float                 mTouchStartY;
+    private float                 x;
+    private float                 y;
     private WindowManager wm = (WindowManager) getContext().getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
     //此wmParams为获取的全局变量，用以保存悬浮窗口的属性
     private WindowManager.LayoutParams wmParams;
 
-    public MyFloatView(Context context, View contentView) {
+    public MyFloatView(Context context) {
         super(context);
-        initView(context, contentView);
+        EventBus.getDefault().register(this);
+        initView(context);
     }
 
-    private void initView(Context context, View contentView) {
+    private void initView(Context context) {
         LayoutInflater.from(context).inflate(R.layout.layout_for_float_window, this);
-        contentContainer = (FrameLayout) findViewById(R.id.content_view);
-        if (contentView != null){
-            contentContainer.addView(contentView);
-        }
+        rycv = (RecyclerView) findViewById(R.id.content_view);
+        rycv.setLayoutManager(new LinearLayoutManager(context));
+        mAdapter = new RVBaseAdapter<String>(context, new ArrayList<String>(), R.layout.list_item) {
+            @Override
+            public void bindView(RVBaseHolder holder, String s) {
+                holder.setText(R.id.tv_event, s);
+            }
+        };
+        rycv.setAdapter(mAdapter);
+
+    }
+
+    @Subscribe
+    public void onEvent(FloatViewDataChangeEvent event) {
+        mAdapter.getmDatas().add(event.data);
+        mAdapter.notifyDataSetChanged();
 
     }
 

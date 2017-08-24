@@ -6,14 +6,14 @@
               android:padding="0.5dp"
               android:background="@android:color/black">
 
-    <FrameLayout
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/content_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@android:color/white">
 
-    </FrameLayout>
+    </android.support.v7.widget.RecyclerView>
 
     <TextView
         android:background="#26241F"

@@ -22,8 +22,6 @@ public class MyWindowManager {
      */
     private static WindowManager.LayoutParams mWindowParams;
 
-//    public static void createFloatView(Context context, View contentView, int gravity, int width, int height, int x, int y) {
-
     public static void createFloatView(Context context, View contentView, int width, int height) {
 
         WindowManager windowManager = getWindowManager(context);
