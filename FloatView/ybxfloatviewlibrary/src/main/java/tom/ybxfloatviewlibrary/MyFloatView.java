@@ -55,6 +55,7 @@ public class MyFloatView extends LinearLayout {
     public void onEvent(FloatViewDataChangeEvent event) {
         mAdapter.getmDatas().add(event.data);
         mAdapter.notifyDataSetChanged();
+        rycv.smoothScrollToPosition(mAdapter.getItemCount() - 1);
 
     }
 
